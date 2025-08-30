@@ -1,0 +1,45 @@
+{
+  "name": "modality-analyzer",
+  "version": "1.0.0",
+  "description": "Alethic Modality Analyzer - Desktop Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "web": "node web-server.js",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "dist": "electron-builder --publish=never"
+  },
+  "keywords": [
+    "modality",
+    "linguistics",
+    "nlp",
+    "desktop-app"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^22.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "path": "^0.12.7"
+  },
+  "build": {
+    "appId": "com.modalityanalyzer.app",
+    "productName": "Modality Analyzer",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!node_modules",
+      "!dist",
+      "!.git"
+    ],
+    "win": {
+      "target": "dir"
+    }
+  }
+}

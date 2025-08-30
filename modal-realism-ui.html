@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Extended Modal Realism Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .modal-realism-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .variable-mapping {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .variable-mapping h3 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .variable-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .variable-item {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .modal-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .modal-score-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-score-item h4 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .score-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .score-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .score-fill.modal-realism { background: linear-gradient(90deg, #ff6b6b, #ee5a24); }
+        .score-fill.possible-worlds { background: linear-gradient(90deg, #4834d4, #686de0); }
+        .score-fill.necessity { background: linear-gradient(90deg, #00d2d3, #01a3a4); }
+        .score-fill.possibility { background: linear-gradient(90deg, #ff9ff3, #f368e0); }
+        .score-fill.counterfactual { background: linear-gradient(90deg, #feca57, #ff9f43); }
+        
+        .converted-statement {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            color: #fff;
+            border-left: 4px solid #00d2d3;
+        }
+        
+        .modal-analysis {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .propositions, .modal-operators, .world-refs {
+            margin: 10px 0;
+        }
+        
+        .propositions .item, .modal-operators .item, .world-refs .item {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            margin: 3px;
+            border-radius: 5px;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .reset-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Extended Modal Realism Calculator</h1>
+            <p>Analyze modal statements with variable substitution and possible worlds semantics</p>
+        </header>
+
+        <main>
+            <div class="modal-realism-container">
+                <div class="input-section">
+                    <label for="modal-input">Enter modal statement (numbers will be converted to variables a-z):</label>
+                    <textarea id="modal-input" placeholder="e.g., 'In some possible world, 2+2=5 and necessarily, if 3>1 then possibly 7 is prime'"></textarea>
+                    <button id="analyze-modal-btn">Analyze Modal Statement</button>
+                    <button id="reset-variables-btn" class="reset-btn">Reset Variables</button>
+                </div>
+
+                <div class="results-section" id="modal-results-section" style="display: none;">
+                    <div class="converted-statement">
+                        <h3>Statement with Variables:</h3>
+                        <div id="converted-statement"></div>
+                    </div>
+                    
+                    <div class="variable-mapping">
+                        <h3>Variable Mappings:</h3>
+                        <div class="variable-list" id="variable-list"></div>
+                    </div>
+
+                    <div class="modal-scores">
+                        <div class="modal-score-item">
+                            <h4>Modal Realism</h4>
+                            <div class="score-bar">
+                                <div class="score-fill modal-realism" id="modal-realism-bar"></div>
+                            </div>
+                            <span id="modal-realism-value">0%</span>
+                        </div>
+                        <div class="modal-score-item">
+                            <h4>Possible Worlds</h4>
+                            <div class="score-bar">
+                                <div class="score-fill possible-worlds" id="possible-worlds-bar"></div>
+                            </div>
+                            <span id="possible-worlds-value">0%</span>
+                        </div>
+                        <div class="modal-score-item">
+                            <h4>Necessity</h4>
+                            <div class="score-bar">
+                                <div class="score-fill necessity" id="necessity-modal-bar"></div>
+                            </div>
+                            <span id="necessity-modal-value">0%</span>
+                        </div>
+                        <div class="modal-score-item">
+                            <h4>Possibility</h4>
+                            <div class="score-bar">
+                                <div class="score-fill possibility" id="possibility-modal-bar"></div>
+                            </div>
+                            <span id="possibility-modal-value">0%</span>
+                        </div>
+                        <div class="modal-score-item">
+                            <h4>Counterfactual</h4>
+                            <div class="score-bar">
+                                <div class="score-fill counterfactual" id="counterfactual-bar"></div>
+                            </div>
+                            <span id="counterfactual-value">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="overall-classification">
+                        <h3>Modal Realism Level: <span id="modal-classification">-</span></h3>
+                    </div>
+
+                    <div class="modal-analysis">
+                        <h3>Logical Analysis</h3>
+                        <div class="propositions">
+                            <strong>Propositions:</strong>
+                            <div id="propositions-list"></div>
+                        </div>
+                        <div class="modal-operators">
+                            <strong>Modal Operators:</strong>
+                            <div id="modal-operators-list"></div>
+                        </div>
+                        <div class="world-refs">
+                            <strong>World References:</strong>
+                            <div id="world-refs-list"></div>
+                        </div>
+                        
+                        <h4>Explanation</h4>
+                        <div class="explanation" id="modal-explanation"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="modal-realism-calculator.js"></script>
+    <script>
+        const modalCalculator = new ModalRealismCalculator();
+        
+        document.getElementById('analyze-modal-btn').addEventListener('click', function() {
+            const input = document.getElementById('modal-input').value;
+            
+            if (!input.trim()) {
+                alert('Please enter a modal statement to analyze.');
+                return;
+            }
+            
+            try {
+                const result = modalCalculator.analyze(input);
+                displayModalResults(result);
+            } catch (error) {
+                alert('Error analyzing statement: ' + error.message);
+            }
+        });
+        
+        document.getElementById('reset-variables-btn').addEventListener('click', function() {
+            modalCalculator.resetVariables();
+            alert('Variable mappings have been reset.');
+        });
+        
+        function displayModalResults(result) {
+            document.getElementById('modal-results-section').style.display = 'block';
+            
+            // Display converted statement
+            document.getElementById('converted-statement').textContent = result.convertedStatement;
+            
+            // Display variable mappings
+            const variableList = document.getElementById('variable-list');
+            variableList.innerHTML = '';
+            Object.entries(result.variableMapping).forEach(([num, variable]) => {
+                const item = document.createElement('div');
+                item.className = 'variable-item';
+                item.textContent = `${num} → ${variable}`;
+                variableList.appendChild(item);
+            });
+            
+            // Display scores
+            const scores = result.scores;
+            updateScoreBar('modal-realism', scores.modalRealism);
+            updateScoreBar('possible-worlds', scores.possibleWorlds);
+            updateScoreBar('necessity-modal', scores.necessity);
+            updateScoreBar('possibility-modal', scores.possibility);
+            updateScoreBar('counterfactual', scores.counterfactual);
+            
+            // Display classification
+            document.getElementById('modal-classification').textContent = result.modalRealismLevel;
+            
+            // Display analysis details
+            displayAnalysisDetails(result.analysis);
+            
+            // Display explanation
+            document.getElementById('modal-explanation').textContent = result.explanation;
+        }
+        
+        function updateScoreBar(type, score) {
+            const bar = document.getElementById(type + '-bar');
+            const value = document.getElementById(type + '-value');
+            
+            bar.style.width = score + '%';
+            value.textContent = Math.round(score) + '%';
+        }
+        
+        function displayAnalysisDetails(analysis) {
+            // Propositions
+            const propsList = document.getElementById('propositions-list');
+            propsList.innerHTML = '';
+            analysis.propositions.forEach(prop => {
+                const item = document.createElement('span');
+                item.className = 'item';
+                item.textContent = prop;
+                propsList.appendChild(item);
+            });
+            
+            // Modal operators
+            const opsList = document.getElementById('modal-operators-list');
+            opsList.innerHTML = '';
+            analysis.modalOperators.forEach(op => {
+                const item = document.createElement('span');
+                item.className = 'item';
+                item.textContent = `${op.operator}${op.scope}`;
+                opsList.appendChild(item);
+            });
+            
+            // World references
+            const worldsList = document.getElementById('world-refs-list');
+            worldsList.innerHTML = '';
+            analysis.worldReferences.forEach(world => {
+                const item = document.createElement('span');
+                item.className = 'item';
+                item.textContent = world;
+                worldsList.appendChild(item);
+            });
+        }
+        
+        // Allow Enter key to trigger analysis
+        document.getElementById('modal-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                document.getElementById('analyze-modal-btn').click();
+            }
+        });
+    </script>
+</body>
+</html>

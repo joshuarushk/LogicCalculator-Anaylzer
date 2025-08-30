@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Alethic Modality Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Extended Modal Realism Analyzer & Calculator</h1>
+            <p>Advanced alethic modality analysis with extended modal realism theory • Possible and impossible concrete worlds • Takashi Yagisawa's metaphysical framework</p>
+        </header>
+
+        <main>
+            <!-- Modality Analyzer Section -->
+            <div class="analyzer-section">
+                <h2>Alethic Modality Analysis</h2>
+                <div class="input-section">
+                    <label for="sentence-input">Enter text to analyze (sentence, paragraph, or essay):</label>
+                    <textarea id="sentence-input" placeholder="e.g., 'It is necessary that all triangles have three sides' or multiple sentences for paragraph analysis..."></textarea>
+                    <button id="analyze-btn">Analyze Modality</button>
+                    <div class="input-info">
+                        <small>💡 Enter multiple sentences for detailed paragraph/essay analysis with proportional scoring</small>
+                    </div>
+                </div>
+
+                <div class="results-section" id="results-section" style="display: none;">
+                    <div class="modality-rating">
+                        <h3>Modality Rating</h3>
+                        <div class="rating-display">
+                            <div class="rating-item">
+                                <span class="label">Necessity:</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill necessity" id="necessity-bar"></div>
+                                </div>
+                                <span class="rating-value" id="necessity-value">0%</span>
+                            </div>
+                            <div class="rating-item">
+                                <span class="label">Possibility:</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill possibility" id="possibility-bar"></div>
+                                </div>
+                                <span class="rating-value" id="possibility-value">0%</span>
+                            </div>
+                            <div class="rating-item">
+                                <span class="label">Impossibility:</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill impossibility" id="impossibility-bar"></div>
+                                </div>
+                                <span class="rating-value" id="impossibility-value">0%</span>
+                            </div>
+                        </div>
+                        <div class="overall-classification">
+                            <h4>Classification: <span id="classification">-</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="analysis-details">
+                        <div id="sentence-breakdown" style="display: none;">
+                            <h3>Sentence-by-Sentence Analysis</h3>
+                            <div id="sentence-breakdown-content"></div>
+                        </div>
+                        
+                        <h3>Grammatical Analysis</h3>
+                        <div class="tokens-display" id="tokens-display"></div>
+                        
+                        <h4>Modal Indicators Found</h4>
+                        <div class="modal-indicators" id="modal-indicators"></div>
+                        
+                        <h4>Analysis Explanation</h4>
+                        <div class="explanation" id="explanation"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extended Modal Realism Calculator Section -->
+            <div class="calculator-section">
+                <h2>Extended Modal Realism Calculator</h2>
+                <p class="calculator-description">Advanced logical reasoning aligned with Takashi Yagisawa's Extended Modal Realism theory, supporting possible and impossible concrete worlds, advanced modal notions, and metaphysical frameworks.</p>
+
+                <div class="calculator-controls">
+                    <div class="logic-type-selector">
+                        <label>Logic System:</label>
+                        <select id="logic-type">
+                            <option value="extended-modal-realism">Extended Modal Realism</option>
+                            <option value="classical">Classical Logic</option>
+                            <option value="intuitionistic">Intuitionistic Logic</option>
+                            <option value="modal">Standard Modal Logic</option>
+                            <option value="predicate">Predicate Logic</option>
+                        </select>
+                    </div>
+                    
+                    <div class="world-type-selector">
+                        <label>World Type:</label>
+                        <select id="world-type">
+                            <option value="actual">Actual World</option>
+                            <option value="possible">Possible Worlds</option>
+                            <option value="impossible">Impossible Worlds</option>
+                            <option value="concrete">Concrete Worlds</option>
+                            <option value="abstract">Abstract Worlds</option>
+                        </select>
+                    </div>
+                    
+                    <div class="cardinality-selector">
+                        <label>Cardinality (κ):</label>
+                        <select id="cardinality-type">
+                            <option value="countable">ℵ₀ (Countable)</option>
+                            <option value="uncountable">ℵ₁ (Uncountable)</option>
+                            <option value="beth1">ℶ₁ (Beth-1)</option>
+                            <option value="beth2">ℶ₂ (Beth-2)</option>
+                            <option value="inaccessible">Inaccessible</option>
+                            <option value="mahlo">Mahlo</option>
+                            <option value="compact">Compact</option>
+                            <option value="measurable">Measurable</option>
+                        </select>
+                    </div>
+                    
+                    <div class="variable-inputs">
+                        <label>Variables & Predicates:</label>
+                        <input type="text" id="variable-input" placeholder="Enter variables (e.g., p, q, r, A, B, C, W, w1, w2)" />
+                        <button id="add-variable-btn">Add Variables</button>
+                    </div>
+                </div>
+
+                <div class="calculator-interface">
+                    <div class="logical-connectives">
+                        <h3>Logical Connectives</h3>
+                        <div class="connective-buttons">
+                            <button class="connective-btn" data-connective="¬">¬ (NOT)</button>
+                            <button class="connective-btn" data-connective="∧">∧ (AND)</button>
+                            <button class="connective-btn" data-connective="∨">∨ (OR)</button>
+                            <button class="connective-btn" data-connective="→">→ (IMPLIES)</button>
+                            <button class="connective-btn" data-connective="↔">↔ (IFF)</button>
+                            <button class="connective-btn" data-connective="⊕">⊕ (XOR)</button>
+                            <button class="connective-btn" data-connective="⊤">⊤ (TRUE)</button>
+                            <button class="connective-btn" data-connective="⊥">⊥ (FALSE)</button>
+                        </div>
+                        
+                        <div class="extended-modal-buttons">
+                            <button class="connective-btn" data-connective="□">□ (NECESSARY)</button>
+                            <button class="connective-btn" data-connective="◇">◇ (POSSIBLE)</button>
+                            <button class="connective-btn" data-connective="◊">◊ (IMPOSSIBLE)</button>
+                            <button class="connective-btn" data-connective="◻">◻ (ACTUAL)</button>
+                            <button class="connective-btn" data-connective="◊">◊ (CONCRETE)</button>
+                            <button class="connective-btn" data-connective="◻">◻ (ABSTRACT)</button>
+                        </div>
+
+                        <div class="infinitary-buttons">
+                            <button class="connective-btn" data-connective="⋀">⋀ (INFINITE CONJUNCTION)</button>
+                            <button class="connective-btn" data-connective="⋁">⋁ (INFINITE DISJUNCTION)</button>
+                            <button class="connective-btn" data-connective="⋀κ">⋀κ (κ-CONJUNCTION)</button>
+                            <button class="connective-btn" data-connective="⋁κ">⋁κ (κ-DISJUNCTION)</button>
+                            <button class="connective-btn" data-connective="∀κ">∀κ (κ-UNIVERSAL)</button>
+                            <button class="connective-btn" data-connective="∃κ">∃κ (κ-EXISTENTIAL)</button>
+                        </div>
+
+                        <div class="quantifier-buttons">
+                            <button class="connective-btn" data-connective="∀">∀ (FOR ALL)</button>
+                            <button class="connective-btn" data-connective="∃">∃ (EXISTS)</button>
+                            <button class="connective-btn" data-connective="∃!">∃! (UNIQUE)</button>
+                            <button class="connective-btn" data-connective="∀w">∀w (ALL WORLDS)</button>
+                            <button class="connective-btn" data-connective="∃w">∃w (SOME WORLD)</button>
+                        </div>
+
+                        <div class="world-relation-buttons">
+                            <button class="connective-btn" data-connective="R">R (ACCESSIBILITY)</button>
+                            <button class="connective-btn" data-connective="∈">∈ (IN WORLD)</button>
+                            <button class="connective-btn" data-connective="⊆">⊆ (SUBWORLD)</button>
+                            <button class="connective-btn" data-connective="≈">≈ (SIMILAR)</button>
+                        </div>
+                    </div>
+
+                    <div class="expression-builder">
+                        <h3>Expression Builder</h3>
+                        <div class="expression-input">
+                            <textarea id="logical-expression" placeholder="Build your extended modal realism expression here...&#10;Example: ∀w(□p → p) (Necessity implies truth in all worlds)&#10;Example: ∃w(¬p ∧ ◇p) (Impossible world where p is false but possible)&#10;Example: ∀w1∀w2(w1Rw2 → (□p[w1] → p[w2])) (Accessibility relation)&#10;Example: ∀x∀w(x ∈ w → ◻(x exists in w)) (Concrete existence across worlds)&#10;Example: ⋀κ(□pκ → pκ) (Infinitary necessity across κ-worlds)&#10;Example: ∀κ∃wκ(wκ ∈ Wκ ∧ □p[wκ]) (Uncountable world quantification)"></textarea>
+                        </div>
+                        
+                        <div class="expression-controls">
+                            <button id="evaluate-btn">Evaluate Expression</button>
+                            <button id="clear-expression-btn">Clear</button>
+                            <button id="add-parentheses-btn">Add ( )</button>
+                            <button id="truth-table-btn">Generate Truth Table</button>
+                            <button id="world-analysis-btn">World Analysis</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-results" id="calculator-results" style="display: none;">
+                    <div class="result-tabs">
+                        <button class="result-tab-btn active" data-result-tab="evaluation">Evaluation</button>
+                        <button class="result-tab-btn" data-result-tab="truth-table">Truth Table</button>
+                        <button class="result-tab-btn" data-result-tab="world-analysis">World Analysis</button>
+                        <button class="result-tab-btn" data-result-tab="infinitary-analysis">Infinitary Analysis</button>
+                        <button class="result-tab-btn" data-result-tab="proof">Proof Steps</button>
+                        <button class="result-tab-btn" data-result-tab="semantics">Extended Modal Semantics</button>
+                    </div>
+
+                    <div class="result-content">
+                        <div class="evaluation-result" id="evaluation-result">
+                            <h3>Expression Evaluation</h3>
+                            <div id="evaluation-content"></div>
+                        </div>
+
+                        <div class="truth-table-result" id="truth-table-result" style="display: none;">
+                            <h3>Truth Table</h3>
+                            <div id="truth-table-content"></div>
+                        </div>
+
+                        <div class="world-analysis-result" id="world-analysis-result" style="display: none;">
+                            <h3>World Analysis</h3>
+                            <div id="world-analysis-content"></div>
+                        </div>
+
+                        <div class="infinitary-analysis-result" id="infinitary-analysis-result" style="display: none;">
+                            <h3>Infinitary Logic Analysis</h3>
+                            <div id="infinitary-analysis-content"></div>
+                        </div>
+
+                        <div class="proof-result" id="proof-result" style="display: none;">
+                            <h3>Proof Steps</h3>
+                            <div id="proof-content"></div>
+                        </div>
+
+                        <div class="semantics-result" id="semantics-result" style="display: none;">
+                            <h3>Extended Modal Semantics</h3>
+                            <div id="semantics-content"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="extended-modal-templates">
+                    <h3>Extended Modal Realism Templates</h3>
+                    <div class="template-buttons">
+                        <button class="template-btn" data-template="necessity-truth">Necessity Truth</button>
+                        <button class="template-btn" data-template="impossible-worlds">Impossible Worlds</button>
+                        <button class="template-btn" data-template="concrete-existence">Concrete Existence</button>
+                        <button class="template-btn" data-template="accessibility-relation">Accessibility Relation</button>
+                        <button class="template-btn" data-template="world-similarity">World Similarity</button>
+                        <button class="template-btn" data-template="modal-collapse">Modal Collapse</button>
+                        <button class="template-btn" data-template="contingent-necessity">Contingent Necessity</button>
+                        <button class="template-btn" data-template="cross-world-identity">Cross-World Identity</button>
+                    </div>
+                </div>
+
+                <div class="infinitary-templates">
+                    <h3>Infinitary Logic Templates</h3>
+                    <div class="template-buttons">
+                        <button class="template-btn" data-template="infinitary-conjunction">Infinitary Conjunction</button>
+                        <button class="template-btn" data-template="infinitary-disjunction">Infinitary Disjunction</button>
+                        <button class="template-btn" data-template="uncountable-quantification">Uncountable Quantification</button>
+                        <button class="template-btn" data-template="cardinal-necessity">Cardinal Necessity</button>
+                        <button class="template-btn" data-template="infinitary-accessibility">Infinitary Accessibility</button>
+                        <button class="template-btn" data-template="large-cardinal-modal">Large Cardinal Modal</button>
+                        <button class="template-btn" data-template="beth-hierarchy">Beth Hierarchy</button>
+                        <button class="template-btn" data-template="inaccessible-worlds">Inaccessible Worlds</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="nlp-processor.js"></script>
+    <script src="modality-analyzer.js"></script>
+    <script src="logical-calculator.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

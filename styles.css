@@ -1,0 +1,915 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+main {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.input-section {
+    margin-bottom: 30px;
+}
+
+.input-section label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+#sentence-input {
+    width: 100%;
+    min-height: 100px;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+#sentence-input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+#analyze-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: transform 0.2s ease;
+}
+
+#analyze-btn:hover {
+    transform: translateY(-2px);
+}
+
+.input-info {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid #007bff;
+}
+
+.input-info small {
+    color: #6c757d;
+    font-style: italic;
+}
+
+.results-section {
+    border-top: 2px solid #f0f0f0;
+    padding-top: 30px;
+}
+
+.modality-rating h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.rating-display {
+    margin-bottom: 25px;
+}
+
+.rating-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.rating-item .label {
+    min-width: 100px;
+    font-weight: 600;
+    color: #555;
+}
+
+.rating-bar {
+    flex: 1;
+    height: 20px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.rating-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.rating-fill.necessity {
+    background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+}
+
+.rating-fill.possibility {
+    background: linear-gradient(90deg, #4ecdc4, #44a08d);
+}
+
+.rating-fill.impossibility {
+    background: linear-gradient(90deg, #45b7d1, #96c93d);
+}
+
+.rating-value {
+    min-width: 50px;
+    text-align: right;
+    font-weight: 600;
+}
+
+.overall-classification {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.overall-classification h3 {
+    font-size: 1.3rem;
+    color: #333;
+}
+
+.overall-classification span {
+    color: #667eea;
+    font-weight: 700;
+}
+
+.analysis-details {
+    margin-top: 30px;
+}
+
+.analysis-details h2, .analysis-details h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.tokens-display {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-family: 'Courier New', monospace;
+}
+
+.token {
+    display: inline-block;
+    margin: 3px;
+    padding: 5px 10px;
+    background: #e9ecef;
+    border-radius: 15px;
+    font-size: 0.9rem;
+}
+
+.token.modal {
+    background: #667eea;
+    color: white;
+}
+
+.token.verb {
+    background: #4ecdc4;
+    color: white;
+}
+
+.token.noun {
+    background: #ff6b6b;
+    color: white;
+}
+
+.token.adjective {
+    background: #feca57;
+    color: white;
+}
+
+.modal-indicators {
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ffc107;
+}
+
+.explanation {
+    background: #d1ecf1;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #17a2b8;
+    line-height: 1.6;
+}
+
+/* Sentence breakdown styles */
+.sentence-analysis {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.sentence-analysis h4 {
+    margin: 0 0 10px 0;
+    color: #495057;
+    font-size: 1rem;
+    word-wrap: break-word;
+}
+
+/* Mini rating bars for sentence breakdown */
+.mini-ratings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.mini-rating-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+.mini-rating-item span:first-child {
+    min-width: 80px;
+    font-weight: 500;
+}
+
+.mini-rating-item span:last-child {
+    min-width: 35px;
+    text-align: right;
+    font-weight: 600;
+}
+
+.mini-rating-bar {
+    flex: 1;
+    height: 12px;
+    background: #e9ecef;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.mini-rating-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.3s ease;
+}
+
+.mini-rating-fill.necessity {
+    background: linear-gradient(90deg, #dc3545, #c82333);
+}
+
+.mini-rating-fill.possibility {
+    background: linear-gradient(90deg, #28a745, #218838);
+}
+
+.mini-rating-fill.impossibility {
+    background: linear-gradient(90deg, #6f42c1, #5a32a3);
+}
+
+/* Enhanced textarea for longer text */
+#sentence-input {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Improved spacing for analysis details */
+.analysis-details > div {
+    margin-bottom: 25px;
+}
+
+.analysis-details h2, .analysis-details h3 {
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+/* ===== EXTENDED MODAL REALISM CALCULATOR STYLES ===== */
+
+/* Analyzer Section */
+.analyzer-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    margin-bottom: 30px;
+}
+
+.analyzer-section h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+/* Calculator Section */
+.calculator-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.calculator-description {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.calculator-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.calculator-header h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.calculator-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Calculator Controls */
+.calculator-controls {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.logic-type-selector, .world-type-selector, .variable-inputs {
+    flex: 1;
+    min-width: 200px;
+}
+
+.logic-type-selector label, .variable-inputs label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.logic-type-selector select, .variable-inputs input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.logic-type-selector select:focus, .variable-inputs input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.variable-inputs {
+    display: flex;
+    gap: 10px;
+    align-items: end;
+}
+
+.variable-inputs input {
+    flex: 1;
+}
+
+#add-variable-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+#add-variable-btn:hover {
+    background: #218838;
+}
+
+/* Calculator Interface */
+.calculator-interface {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.logical-connectives, .expression-builder {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.logical-connectives h3, .expression-builder h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+/* Connective Buttons */
+.connective-buttons, .quantifier-buttons, .extended-modal-buttons, .world-relation-buttons, .infinitary-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.connective-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    min-width: 60px;
+}
+
+.connective-btn:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+.quantifier-buttons .connective-btn {
+    background: #17a2b8;
+}
+
+.quantifier-buttons .connective-btn:hover {
+    background: #138496;
+}
+
+.extended-modal-buttons .connective-btn {
+    background: #6f42c1;
+}
+
+.extended-modal-buttons .connective-btn:hover {
+    background: #5a32a3;
+}
+
+.world-relation-buttons .connective-btn {
+    background: #e83e8c;
+}
+
+.world-relation-buttons .connective-btn:hover {
+    background: #d63384;
+}
+
+.infinitary-buttons .connective-btn {
+    background: #fd7e14;
+}
+
+.infinitary-buttons .connective-btn:hover {
+    background: #e8690b;
+}
+
+/* Expression Builder */
+.expression-input textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Courier New', monospace;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+.expression-input textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.expression-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.expression-controls button {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.expression-controls button:hover {
+    background: #5a6268;
+}
+
+#evaluate-btn {
+    background: #007bff;
+}
+
+#evaluate-btn:hover {
+    background: #0056b3;
+}
+
+#truth-table-btn {
+    background: #fd7e14;
+}
+
+#truth-table-btn:hover {
+    background: #e8690b;
+}
+
+#world-analysis-btn {
+    background: #20c997;
+}
+
+#world-analysis-btn:hover {
+    background: #1ea085;
+}
+
+/* Calculator Results */
+.calculator-results {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #e9ecef;
+}
+
+.result-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.result-tab-btn {
+    background: #e9ecef;
+    color: #495057;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.result-tab-btn:hover {
+    background: #dee2e6;
+}
+
+.result-tab-btn.active {
+    background: #667eea;
+    color: white;
+}
+
+.result-content {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+}
+
+/* Truth Table Styles */
+.truth-table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.truth-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-family: 'Courier New', monospace;
+}
+
+.truth-table th, .truth-table td {
+    border: 1px solid #dee2e6;
+    padding: 8px 12px;
+    text-align: center;
+    min-width: 40px;
+}
+
+.truth-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+.truth-table td.true {
+    background: #d4edda;
+    color: #155724;
+    font-weight: 600;
+}
+
+.truth-table td.false {
+    background: #f8d7da;
+    color: #721c24;
+    font-weight: 600;
+}
+
+.truth-table td.error {
+    background: #fff3cd;
+    color: #856404;
+    font-weight: 600;
+}
+
+.truth-table-analysis {
+    background: #e7f3ff;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.truth-table-analysis p {
+    margin: 5px 0;
+}
+
+.tautology {
+    color: #155724;
+    font-weight: 600;
+}
+
+.contradiction {
+    color: #721c24;
+    font-weight: 600;
+}
+
+.contingency {
+    color: #856404;
+    font-weight: 600;
+}
+
+/* Proof Steps */
+.proof-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.proof-step {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.step-number {
+    background: #667eea;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-rule {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.step-justification {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Semantic Analysis */
+.semantic-analysis h4 {
+    color: #333;
+    margin: 20px 0 10px 0;
+    font-size: 1.1rem;
+}
+
+.semantic-analysis p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+/* Extended Modal Templates */
+.extended-modal-templates {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.extended-modal-templates h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+/* Infinitary Templates */
+.infinitary-templates {
+    background: #fff3cd;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #ffeaa7;
+    margin-bottom: 20px;
+}
+
+.infinitary-templates h3 {
+    color: #856404;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.template-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.template-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.template-btn:hover {
+    background: #5a6268;
+}
+
+/* World Analysis Styles */
+.world-analysis {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.world-analysis h4 {
+    color: #333;
+    margin: 15px 0 10px 0;
+    font-size: 1.1rem;
+}
+
+.world-analysis p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+/* Extended Modal Semantics */
+.extended-modal-semantics h4 {
+    color: #333;
+    margin: 20px 0 10px 0;
+    font-size: 1.1rem;
+}
+
+/* Infinitary Analysis */
+.infinitary-analysis {
+    background: #fff3cd;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ffeaa7;
+}
+
+.infinitary-analysis h4 {
+    color: #856404;
+    margin: 15px 0 10px 0;
+    font-size: 1.1rem;
+}
+
+.infinitary-analysis p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.extended-modal-semantics p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+/* Responsive Design for Calculator */
+@media (max-width: 768px) {
+    .calculator-interface {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .calculator-controls {
+        flex-direction: column;
+    }
+    
+    .logic-type-selector, .variable-inputs {
+        min-width: auto;
+    }
+    
+    .variable-inputs {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .connective-buttons, .quantifier-buttons, .modal-buttons {
+        justify-content: center;
+    }
+    
+    .result-tabs {
+        justify-content: center;
+    }
+    
+    .template-buttons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    main {
+        padding: 20px;
+    }
+    
+    .rating-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .rating-item .label {
+        min-width: auto;
+    }
+    
+    .mini-ratings {
+        gap: 6px;
+    }
+    
+    .mini-rating-item {
+        font-size: 0.8rem;
+    }
+    
+    .mini-rating-item span:first-child {
+        min-width: 70px;
+    }
+    
+    .sentence-analysis h4 {
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+}
